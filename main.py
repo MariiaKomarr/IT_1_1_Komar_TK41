@@ -5,6 +5,7 @@ from models.row import Row
 from models.datatype import DataType
 
 from services.join_service import JoinService
+from services.storage_service import StorageService
 
 database = Database("Shop")
 
@@ -94,6 +95,12 @@ result = JoinService.join(
     "client_id"
 )
 
+StorageService.save(
+    database,
+    "shop.json"
+)
+
+print("\nБД збережено у shop.json")
 
 print("\nРезультат JOIN:")
 print("Таблиця:", result.name)
@@ -109,3 +116,21 @@ print("\nЗаписи:")
 
 for row in result.rows:
     print(row.values)
+
+loaded_database = StorageService.load(
+    "shop.json"
+)
+
+print("\nЗавантажена БД:")
+print("Назва:", loaded_database.name)
+
+for table in loaded_database.tables:
+    print("\nТаблиця:", table.name)
+
+    for column in table.columns:
+        print(
+            f"{column.name}: {column.datatype.value}"
+        )
+
+    for row in table.rows:
+        print(row.values)
