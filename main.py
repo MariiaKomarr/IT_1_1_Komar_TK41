@@ -1,136 +1,18 @@
-from models.database import Database
-from models.table import Table
-from models.column import Column
-from models.row import Row
-from models.datatype import DataType
+import sys
 
-from services.join_service import JoinService
-from services.storage_service import StorageService
+from PySide6.QtWidgets import QApplication
 
-database = Database("Shop")
+from gui.main_window import MainWindow
 
-clients = Table("Clients")
 
-clients.add_column(
-    Column("client_id", DataType.INTEGER)
-)
+def main():
+    app = QApplication(sys.argv)
 
-clients.add_column(
-    Column("name", DataType.STRING)
-)
+    window = MainWindow()
+    window.show()
 
-clients.add_column(
-    Column("birth_date", DataType.DATE)
-)
+    sys.exit(app.exec())
 
-clients.add_row(
-    Row({
-        "client_id": 1,
-        "name": "Maria",
-        "birth_date": "25.09.2003"
-    })
-)
 
-clients.add_row(
-    Row({
-        "client_id": 2,
-        "name": "Anna",
-        "birth_date": "10.04.2002"
-    })
-)
-
-clients.add_row(
-    Row({
-        "client_id": 3,
-        "name": "Oleg",
-        "birth_date": "15.01.2001"
-    })
-)
-
-database.add_table(clients)
-
-orders = Table("Orders")
-
-orders.add_column(
-    Column("client_id", DataType.INTEGER)
-)
-
-orders.add_column(
-    Column("product", DataType.STRING)
-)
-
-orders.add_column(
-    Column("price", DataType.REAL)
-)
-
-orders.add_row(
-    Row({
-        "client_id": 1,
-        "product": "Phone",
-        "price": 25000.0
-    })
-)
-
-orders.add_row(
-    Row({
-        "client_id": 2,
-        "product": "Laptop",
-        "price": 45000.0
-    })
-)
-
-orders.add_row(
-    Row({
-        "client_id": 4,
-        "product": "Tablet",
-        "price": 18000.0
-    })
-)
-
-database.add_table(orders)
-
-result = JoinService.join(
-    clients,
-    orders,
-    "client_id"
-)
-
-StorageService.save(
-    database,
-    "shop.json"
-)
-
-print("\nБД збережено у shop.json")
-
-print("\nРезультат JOIN:")
-print("Таблиця:", result.name)
-
-print("\nСтовпці:")
-
-for column in result.columns:
-    print(
-        f"{column.name}: {column.datatype.value}"
-    )
-
-print("\nЗаписи:")
-
-for row in result.rows:
-    print(row.values)
-
-loaded_database = StorageService.load(
-    "shop.json"
-)
-
-print("\nЗавантажена БД:")
-print("Назва:", loaded_database.name)
-
-for table in loaded_database.tables:
-    print("\nТаблиця:", table.name)
-
-    for column in table.columns:
-        print(
-            f"{column.name}: {column.datatype.value}"
-        )
-
-    for row in table.rows:
-        print(row.values)
+if __name__ == "__main__":
+    main()

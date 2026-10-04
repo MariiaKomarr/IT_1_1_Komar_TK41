@@ -1,0 +1,291 @@
+{
+    "name": "bank",
+    "tables": [
+        {
+            "name": "Clients",
+            "columns": [
+                {
+                    "name": "client_id",
+                    "data_type": "integer",
+                    "unique": true,
+                    "required": true
+                },
+                {
+                    "name": "name",
+                    "data_type": "string",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "birth_date",
+                    "data_type": "date",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "category",
+                    "data_type": "char",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "phone_number",
+                    "data_type": "string",
+                    "unique": true,
+                    "required": true
+                }
+            ],
+            "rows": [
+                {
+                    "client_id": 134582,
+                    "name": "Ivan",
+                    "birth_date": "23.09.2002",
+                    "category": "A",
+                    "phone_number": "0981234765"
+                },
+                {
+                    "client_id": 872345,
+                    "name": "Olena",
+                    "birth_date": "12.03.2006",
+                    "category": "B",
+                    "phone_number": "0684367982"
+                },
+                {
+                    "client_id": 12365,
+                    "name": "Nastya",
+                    "birth_date": "12.12.1999",
+                    "category": null,
+                    "phone_number": "0875634543"
+                }
+            ]
+        },
+        {
+            "name": "Accounts",
+            "columns": [
+                {
+                    "name": "account_id",
+                    "data_type": "integer",
+                    "unique": true,
+                    "required": true
+                },
+                {
+                    "name": "client_id",
+                    "data_type": "integer",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "account_type",
+                    "data_type": "string",
+                    "unique": false,
+                    "required": true
+                },
+                {
+                    "name": "balance",
+                    "data_type": "real",
+                    "unique": false,
+                    "required": true
+                },
+                {
+                    "name": "active_period",
+                    "data_type": "dateInv",
+                    "unique": false,
+                    "required": true
+                }
+            ],
+            "rows": [
+                {
+                    "account_id": 1001,
+                    "client_id": 134582,
+                    "account_type": "Current",
+                    "balance": 15000.5,
+                    "active_period": "01.01.2026 - 31.12.2026"
+                },
+                {
+                    "account_id": 1002,
+                    "client_id": 134582,
+                    "account_type": "Savings",
+                    "balance": 420000.0,
+                    "active_period": "01.12.2025 - 01.05.2027"
+                },
+                {
+                    "account_id": 1003,
+                    "client_id": 872345,
+                    "account_type": "Current",
+                    "balance": 1200.8,
+                    "active_period": "12.08.2026 - 01.12.2027"
+                }
+            ]
+        },
+        {
+            "name": "Transactions",
+            "columns": [
+                {
+                    "name": "transaction_id",
+                    "data_type": "integer",
+                    "unique": true,
+                    "required": true
+                },
+                {
+                    "name": "account_id",
+                    "data_type": "integer",
+                    "unique": false,
+                    "required": true
+                },
+                {
+                    "name": "operation",
+                    "data_type": "string",
+                    "unique": false,
+                    "required": true
+                },
+                {
+                    "name": "amount",
+                    "data_type": "real",
+                    "unique": false,
+                    "required": true
+                },
+                {
+                    "name": "transaction_date",
+                    "data_type": "date",
+                    "unique": false,
+                    "required": true
+                }
+            ],
+            "rows": [
+                {
+                    "transaction_id": 9823,
+                    "account_id": 1001,
+                    "operation": "deposit",
+                    "amount": 1000.0,
+                    "transaction_date": "01.09.2026"
+                },
+                {
+                    "transaction_id": 1573,
+                    "account_id": 1001,
+                    "operation": "withdrawal",
+                    "amount": 1200.5,
+                    "transaction_date": "12.07.2026"
+                },
+                {
+                    "transaction_id": 9876,
+                    "account_id": 1002,
+                    "operation": "transfer",
+                    "amount": 3000.0,
+                    "transaction_date": "25.08.2026"
+                },
+                {
+                    "transaction_id": 2574,
+                    "account_id": 1003,
+                    "operation": "withdrawal",
+                    "amount": 2050.0,
+                    "transaction_date": "14.09.2026"
+                }
+            ]
+        },
+        {
+            "name": "Accounts_Transactions_join",
+            "columns": [
+                {
+                    "name": "account_id",
+                    "data_type": "integer",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "client_id",
+                    "data_type": "integer",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "account_type",
+                    "data_type": "string",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "balance",
+                    "data_type": "real",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "active_period",
+                    "data_type": "dateInv",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "transaction_id",
+                    "data_type": "integer",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "operation",
+                    "data_type": "string",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "amount",
+                    "data_type": "real",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "transaction_date",
+                    "data_type": "date",
+                    "unique": false,
+                    "required": false
+                }
+            ],
+            "rows": [
+                {
+                    "account_id": 1001,
+                    "client_id": 134582,
+                    "account_type": "Current",
+                    "balance": 15000.5,
+                    "active_period": "01.01.2026 - 31.12.2026",
+                    "transaction_id": 9823,
+                    "operation": "deposit",
+                    "amount": 1000.0,
+                    "transaction_date": "01.09.2026"
+                },
+                {
+                    "account_id": 1001,
+                    "client_id": 134582,
+                    "account_type": "Current",
+                    "balance": 15000.5,
+                    "active_period": "01.01.2026 - 31.12.2026",
+                    "transaction_id": 1573,
+                    "operation": "withdrawal",
+                    "amount": 1200.5,
+                    "transaction_date": "12.07.2026"
+                },
+                {
+                    "account_id": 1002,
+                    "client_id": 134582,
+                    "account_type": "Savings",
+                    "balance": 420000.0,
+                    "active_period": "01.12.2025 - 01.05.2027",
+                    "transaction_id": 9876,
+                    "operation": "transfer",
+                    "amount": 3000.0,
+                    "transaction_date": "25.08.2026"
+                },
+                {
+                    "account_id": 1003,
+                    "client_id": 872345,
+                    "account_type": "Current",
+                    "balance": 1200.8,
+                    "active_period": "12.08.2026 - 01.12.2027",
+                    "transaction_id": 2574,
+                    "operation": "withdrawal",
+                    "amount": 2050.0,
+                    "transaction_date": "14.09.2026"
+                }
+            ]
+        }
+    ]
+}
