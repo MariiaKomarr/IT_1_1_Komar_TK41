@@ -8,6 +8,9 @@ from gui.main_window import MainWindow
 def main():
     app = QApplication(sys.argv)
 
+    with open("style.qss", "r", encoding="utf-8") as file:
+        app.setStyleSheet(file.read())
+
     window = MainWindow()
     window.show()
 
