@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Сполучення таблиць</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+
+<body>
+
+<div class="container table-form">
+
+    <h1>Сполучення таблиць</h1>
+
+    <p>
+        Оберіть дві таблиці та спільне поле
+    </p>
+
+
+    <!-- ПОМИЛКА -->
+
+    {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+
+
+    {% if database.tables|length < 2 %}
+
+        <div class="error">
+            Для сполучення необхідно мати
+            щонайменше дві таблиці.
+        </div>
+
+        <div class="buttons">
+
+            <a
+                href="{{ url_for('database_view') }}"
+                class="button"
+            >
+                Назад до БД
+            </a>
+
+        </div>
+
+
+    {% else %}
+
+
+
+        <form method="POST">
+
+
+
+            <div class="form-field">
+
+                <label for="table1">
+                    Перша таблиця
+                </label>
+
+                <select
+                    id="table1"
+                    name="table1"
+                    class="form-select"
+                    onchange="updateCommonFields()"
+                >
+
+                    <option value="">
+                        Оберіть таблицю
+                    </option>
+
+                    {% for table in database.tables %}
+
+                        <option
+                            value="{{ table.name }}"
+
+                            {% if form_data.table1 == table.name %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ table.name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+
+            <div class="form-field">
+
+                <label for="table2">
+                    Друга таблиця
+                </label>
+
+                <select
+                    id="table2"
+                    name="table2"
+                    class="form-select"
+                    onchange="updateCommonFields()"
+                >
+
+                    <option value="">
+                        Оберіть таблицю
+                    </option>
+
+                    {% for table in database.tables %}
+
+                        <option
+                            value="{{ table.name }}"
+
+                            {% if form_data.table2 == table.name %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ table.name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- СПІЛЬНЕ ПОЛЕ -->
+
+            <div class="form-field">
+
+                <label for="common_field">
+                    Спільне поле
+                </label>
+
+                <select
+                    id="common_field"
+                    name="common_field"
+                    class="form-select"
+                    disabled
+                >
+
+                    <option value="">
+                        Спочатку оберіть дві таблиці
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <div
+                id="join-message"
+                class="join-message"
+            ></div>
+
+
+
+            <div class="form-field join-result-field">
+
+                <label>
+                    Результат сполучення
+                </label>
+
+                <div class="join-save-options">
+
+                    <label class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="save_result"
+                            value="no"
+
+                            {% if form_data.get('save_result', 'no') == 'no' %}
+                                checked
+                            {% endif %}
+
+                            onchange="toggleResultName()"
+                        >
+
+                        <span>
+                            Тільки переглянути
+                        </span>
+
+                    </label>
+
+
+                    <label class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="save_result"
+                            value="yes"
+
+                            {% if form_data.get('save_result') == 'yes' %}
+                                checked
+                            {% endif %}
+
+                            onchange="toggleResultName()"
+                        >
+
+                        <span>
+                            Зберегти як нову таблицю
+                        </span>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+
+            <div
+                class="form-field"
+                id="result-name-field"
+                style="display: none;"
+            >
+
+                <label for="result_name">
+                    Назва нової таблиці
+                </label>
+
+                <input
+                    type="text"
+                    id="result_name"
+                    name="result_name"
+                    placeholder="Наприклад: clients_cards"
+                    value="{{ form_data.get('result_name', '') }}"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+
+            <div class="buttons">
+
+                <button
+                    type="submit"
+                    id="join-button"
+                    disabled
+                >
+                    Сполучити
+                </button>
+
+
+                <a
+                    href="{{ url_for('database_view') }}"
+                    class="button"
+                >
+                    Скасувати
+                </a>
+
+            </div>
+
+        </form>
+
+    {% endif %}
+
+</div>
+
+
+{% if database.tables|length >= 2 %}
+
+<script>
+
+
+    const tablesData =
+        {{ tables_data | tojson }};
+
+
+    const savedCommonField =
+        {{ form_data.common_field | tojson }};
+
+
+
+    function updateCommonFields() {
+
+        const table1Name =
+            document.getElementById(
+                "table1"
+            ).value;
+
+
+        const table2Name =
+            document.getElementById(
+                "table2"
+            ).value;
+
+
+        const commonFieldSelect =
+            document.getElementById(
+                "common_field"
+            );
+
+
+        const joinButton =
+            document.getElementById(
+                "join-button"
+            );
+
+
+        const message =
+            document.getElementById(
+                "join-message"
+            );
+
+
+
+        commonFieldSelect.innerHTML = "";
+
+        message.textContent = "";
+
+        joinButton.disabled = true;
+
+
+
+        if (!table1Name || !table2Name) {
+
+            commonFieldSelect.disabled = true;
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value = "";
+
+            option.textContent =
+                "Спочатку оберіть дві таблиці";
+
+            commonFieldSelect.appendChild(
+                option
+            );
+
+            return;
+        }
+
+
+
+        if (table1Name === table2Name) {
+
+            commonFieldSelect.disabled = true;
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value = "";
+
+            option.textContent =
+                "Оберіть різні таблиці";
+
+            commonFieldSelect.appendChild(
+                option
+            );
+
+
+            message.textContent =
+                "Для сполучення потрібно "
+                + "обрати дві різні таблиці.";
+
+            return;
+        }
+
+
+        const columns1 =
+            tablesData[table1Name] || [];
+
+
+        const columns2 =
+            tablesData[table2Name] || [];
+
+
+        const commonFields = [];
+
+
+
+        columns1.forEach(
+            function (column1) {
+
+                const match =
+                    columns2.find(
+                        function (column2) {
+
+                            return (
+                                column1.name
+                                    === column2.name
+
+                                &&
+
+                                column1.type
+                                    === column2.type
+                            );
+                        }
+                    );
+
+
+                if (match) {
+
+                    commonFields.push(
+                        column1
+                    );
+
+                }
+            }
+        );
+
+
+
+        if (commonFields.length === 0) {
+
+            commonFieldSelect.disabled = true;
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value = "";
+
+            option.textContent =
+                "Немає спільних сумісних полів";
+
+            commonFieldSelect.appendChild(
+                option
+            );
+
+
+            message.textContent =
+                "Таблиці не мають полів "
+                + "з однаковою назвою "
+                + "та однаковим типом.";
+
+            return;
+        }
+
+
+
+        commonFieldSelect.disabled = false;
+
+
+        const defaultOption =
+            document.createElement(
+                "option"
+            );
+
+
+        defaultOption.value = "";
+
+        defaultOption.textContent =
+            "Оберіть спільне поле";
+
+
+        commonFieldSelect.appendChild(
+            defaultOption
+        );
+
+
+        commonFields.forEach(
+            function (column) {
+
+                const option =
+                    document.createElement(
+                        "option"
+                    );
+
+
+                option.value =
+                    column.name;
+
+
+                option.textContent =
+                    column.name
+                    + " ("
+                    + column.type
+                    + ")";
+
+
+
+                if (
+                    column.name
+                    === savedCommonField
+                ) {
+
+                    option.selected = true;
+
+                }
+
+
+                commonFieldSelect.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+
+        if (commonFieldSelect.value) {
+
+            joinButton.disabled = false;
+
+        }
+
+    }
+
+
+    document
+        .getElementById(
+            "common_field"
+        )
+        .addEventListener(
+            "change",
+            function () {
+
+                document
+                    .getElementById(
+                        "join-button"
+                    )
+                    .disabled =
+                        !this.value;
+
+            }
+        );
+
+
+    function toggleResultName() {
+
+        const selected =
+            document.querySelector(
+                'input[name="save_result"]:checked'
+            );
+
+
+        const field =
+            document.getElementById(
+                "result-name-field"
+            );
+
+
+        if (!selected) {
+
+            field.style.display =
+                "none";
+
+            return;
+        }
+
+
+        if (selected.value === "yes") {
+
+            field.style.display =
+                "block";
+
+        } else {
+
+            field.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    updateCommonFields();
+
+    toggleResultName();
+
+</script>
+
+{% endif %}
+
+
+</body>
+
+</html>

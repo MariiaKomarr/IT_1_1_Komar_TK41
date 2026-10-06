@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Структура {{ table.name }}</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="container table-form">
+
+    <h1>Структура таблиці</h1>
+
+    <p>
+        Таблиця «{{ table.name }}»
+    </p>
+
+    {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+
+    <div class="buttons">
+
+        <a
+            href="{{ url_for(
+                'add_column',
+                table_name=table.name
+            ) }}"
+            class="button"
+        >
+            + Додати стовпець
+        </a>
+
+        <a
+            href="{{ url_for(
+                'table_view',
+                table_name=table.name
+            ) }}"
+            class="button"
+        >
+            Назад
+        </a>
+
+    </div>
+
+
+    <div class="structure-list">
+
+        {% for column in table.columns %}
+
+            <div class="structure-card">
+
+                <div class="structure-info">
+
+                    <strong>
+                        {{ column.name }}
+                    </strong>
+
+                    <div class="column-info">
+
+                        <span class="type-badge">
+                            {{ column.datatype.value }}
+                        </span>
+
+                        {% if column.unique %}
+
+                            <span class="constraint-badge">
+                                UNIQUE
+                            </span>
+
+                        {% endif %}
+
+                        {% if column.required %}
+
+                            <span class="constraint-badge">
+                                REQUIRED
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="structure-actions">
+
+                    <a
+                        href="{{ url_for(
+                            'edit_column',
+                            table_name=table.name,
+                            column_name=column.name
+                        ) }}"
+                        class="button action-button"
+                    >
+                        Редагувати
+                    </a>
+
+                    <form
+                        method="POST"
+                        action="{{ url_for(
+                            'delete_column',
+                            table_name=table.name,
+                            column_name=column.name
+                        ) }}"
+                        class="inline-form"
+                        onsubmit="return confirm(
+                            'Видалити стовпець «{{ column.name }}»? Дані цього стовпця також будуть видалені.'
+                        );"
+                    >
+
+                        <button
+                            type="submit"
+                            class="danger-button"
+                        >
+                            Видалити
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

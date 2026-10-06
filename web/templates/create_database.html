@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Створення бази даних</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>Створення бази даних</h1>
+
+    <p>
+        Введіть назву нової бази даних
+    </p>
+
+
+    {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+
+    <form method="POST">
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Назва бази даних"
+            autocomplete="off"
+        >
+
+
+        <div class="buttons">
+
+            <button type="submit">
+                Створити
+            </button>
+
+
+            <a
+                href="{{ url_for('index') }}"
+                class="button"
+            >
+                Назад
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

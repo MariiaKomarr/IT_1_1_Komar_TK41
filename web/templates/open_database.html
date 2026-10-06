@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Відкрити базу даних</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Відкрити базу даних</h1>
+
+    <p>
+        Виберіть раніше збережену базу даних
+    </p>
+
+
+    {% if files %}
+
+        <div class="saved-database-list">
+
+            {% for file in files %}
+
+                <div class="saved-database-card">
+
+                    <div class="saved-database-info">
+
+                        <strong>
+                            {{ file[:-5] }}
+                        </strong>
+
+                        <span>
+                            {{ file }}
+                        </span>
+
+                    </div>
+
+
+                    <form
+                        method="POST"
+                        action="{{ url_for(
+                            'load_database',
+                            file_name=file
+                        ) }}"
+                    >
+
+                        <button type="submit">
+                            Відкрити
+                        </button>
+
+                    </form>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <p class="empty">
+            Збережених баз даних поки немає.
+        </p>
+
+    {% endif %}
+
+
+    <div class="buttons">
+
+        <a
+            href="{{ url_for('index') }}"
+            class="button"
+        >
+            Назад
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Додавання запису</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>Додавання запису</h1>
+
+    <p>
+        Таблиця «{{ table.name }}»
+    </p>
+
+
+    {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+
+    <form method="POST">
+
+        <div class="row-form">
+
+            {% for column in table.columns %}
+
+                <div class="form-field">
+
+                    <label for="field_{{ loop.index }}">
+
+                        {{ column.name }}
+
+                        <span class="field-type">
+                            {{ column.datatype.value }}
+                        </span>
+
+
+                        {% if column.required %}
+
+                            <span class="required-mark">
+                                *
+                            </span>
+
+                        {% endif %}
+
+
+                        {% if column.unique %}
+
+                            <span class="constraint">
+                                UNIQUE
+                            </span>
+
+                        {% endif %}
+
+                    </label>
+
+
+                    <input
+                        id="field_{{ loop.index }}"
+                        type="text"
+                        name="{{ column.name }}"
+
+                        value="{{ form_data.get(column.name, '') }}"
+
+                        {% if column.datatype.value == 'date' %}
+                            placeholder="дд.мм.рррр"
+
+                        {% elif column.datatype.value == 'dateInv' %}
+                            placeholder="дд.мм.рррр - дд.мм.рррр"
+
+                        {% elif column.datatype.value == 'char' %}
+                            placeholder="Один символ"
+
+                        {% else %}
+                            placeholder="{{ column.name }}"
+                        {% endif %}
+                    >
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <div class="buttons">
+
+            <button type="submit">
+                Додати запис
+            </button>
+
+
+            <a
+                href="{{ url_for(
+                    'table_view',
+                    table_name=table.name
+                ) }}"
+                class="button"
+            >
+                Назад
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>

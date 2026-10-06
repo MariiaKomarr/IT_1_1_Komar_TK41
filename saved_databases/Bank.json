@@ -1,0 +1,197 @@
+{
+    "name": "Bank",
+    "tables": [
+        {
+            "name": "Clients",
+            "columns": [
+                {
+                    "name": "client_id",
+                    "data_type": "integer",
+                    "unique": true,
+                    "required": true
+                },
+                {
+                    "name": "name",
+                    "data_type": "string",
+                    "unique": false,
+                    "required": true
+                },
+                {
+                    "name": "birth_date",
+                    "data_type": "date",
+                    "unique": false,
+                    "required": true
+                },
+                {
+                    "name": "status",
+                    "data_type": "char",
+                    "unique": false,
+                    "required": true
+                }
+            ],
+            "rows": [
+                {
+                    "client_id": 1,
+                    "name": "Olena",
+                    "birth_date": "01.02.2003",
+                    "status": "A"
+                },
+                {
+                    "client_id": 2,
+                    "name": "Petro",
+                    "birth_date": "23.09.2004",
+                    "status": "I"
+                },
+                {
+                    "client_id": 3,
+                    "name": "Lilya",
+                    "birth_date": "07.10.1999",
+                    "status": "A"
+                }
+            ]
+        },
+        {
+            "name": "Accounts",
+            "columns": [
+                {
+                    "name": "acc_id",
+                    "data_type": "integer",
+                    "unique": true,
+                    "required": true
+                },
+                {
+                    "name": "client_id",
+                    "data_type": "integer",
+                    "unique": false,
+                    "required": true
+                },
+                {
+                    "name": "balance",
+                    "data_type": "real",
+                    "unique": false,
+                    "required": true
+                },
+                {
+                    "name": "active_period",
+                    "data_type": "dateInv",
+                    "unique": false,
+                    "required": true
+                },
+                {
+                    "name": "type",
+                    "data_type": "string",
+                    "unique": false,
+                    "required": true
+                }
+            ],
+            "rows": [
+                {
+                    "acc_id": 1001,
+                    "client_id": 1,
+                    "balance": 20390.0,
+                    "active_period": "01.01.2026 - 01.01.2027",
+                    "type": "Current"
+                },
+                {
+                    "acc_id": 1002,
+                    "client_id": 1,
+                    "balance": 100000.0,
+                    "active_period": "20.09.2025 - 20.09.2027",
+                    "type": "Deposit"
+                },
+                {
+                    "acc_id": 1003,
+                    "client_id": 2,
+                    "balance": 23900.0,
+                    "active_period": "04.06.2026 - 31.12.2026",
+                    "type": "Current"
+                }
+            ]
+        },
+        {
+            "name": "clients_cards",
+            "columns": [
+                {
+                    "name": "client_id",
+                    "data_type": "integer",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "name",
+                    "data_type": "string",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "birth_date",
+                    "data_type": "date",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "status",
+                    "data_type": "char",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "acc_id",
+                    "data_type": "integer",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "balance",
+                    "data_type": "real",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "active_period",
+                    "data_type": "dateInv",
+                    "unique": false,
+                    "required": false
+                },
+                {
+                    "name": "type",
+                    "data_type": "string",
+                    "unique": false,
+                    "required": false
+                }
+            ],
+            "rows": [
+                {
+                    "client_id": 1,
+                    "name": "Olena",
+                    "birth_date": "01.02.2003",
+                    "status": "A",
+                    "acc_id": 1001,
+                    "balance": 20390.0,
+                    "active_period": "01.01.2026 - 01.01.2027",
+                    "type": "Current"
+                },
+                {
+                    "client_id": 1,
+                    "name": "Olena",
+                    "birth_date": "01.02.2003",
+                    "status": "A",
+                    "acc_id": 1002,
+                    "balance": 100000.0,
+                    "active_period": "20.09.2025 - 20.09.2027",
+                    "type": "Deposit"
+                },
+                {
+                    "client_id": 2,
+                    "name": "Petro",
+                    "birth_date": "23.09.2004",
+                    "status": "I",
+                    "acc_id": 1003,
+                    "balance": 23900.0,
+                    "active_period": "04.06.2026 - 31.12.2026",
+                    "type": "Current"
+                }
+            ]
+        }
+    ]
+}

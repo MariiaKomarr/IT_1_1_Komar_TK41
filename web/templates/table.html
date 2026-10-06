@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ table.name }}</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="container table-form">
+
+    <h1>{{ table.name }}</h1>
+
+    <p>
+        Таблиця бази даних «{{ database.name }}»
+    </p>
+
+
+    <div class="buttons">
+
+            <a
+                href="{{ url_for(
+                    'add_row',
+                    table_name=table.name
+                ) }}"
+                class="button"
+            >
+                + Додати запис
+            </a>
+
+            <a
+                href="{{ url_for(
+                    'edit_table_structure',
+                    table_name=table.name
+                ) }}"
+                class="button"
+            >
+                Змінити структуру
+            </a>
+
+            <a
+                href="{{ url_for('database_view') }}"
+                class="button"
+            >
+                Назад до БД
+            </a>
+
+    </div>
+
+
+    <div class="data-table-wrapper">
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+
+                    {% for column in table.columns %}
+
+                        <th>
+
+                            <div class="column-title">
+                                {{ column.name }}
+                            </div>
+
+                            <div class="column-info">
+
+                                <span class="type-badge">
+                                    {{ column.datatype.value }}
+                                </span>
+
+                                {% if column.unique %}
+                                    <span class="constraint-badge">
+                                        UNIQUE
+                                    </span>
+                                {% endif %}
+
+                                {% if column.required %}
+                                    <span class="constraint-badge">
+                                        REQUIRED
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                        </th>
+
+                    {% endfor %}
+
+                    <th>Дії</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% if table.rows %}
+
+                    {% for row in table.rows %}
+
+                        <tr>
+
+                            {% for column in table.columns %}
+
+                                <td>
+                                    {{ row.values.get(column.name, '') }}
+                                </td>
+
+                            {% endfor %}
+
+
+                            <td class="actions">
+
+                                <a
+                                    href="{{ url_for(
+                                        'edit_row',
+                                        table_name=table.name,
+                                        row_index=loop.index0
+                                    ) }}"
+                                    class="button action-button"
+                                >
+                                    Редагувати
+                                </a>
+
+                                <form
+                                    method="POST"
+                                    action="{{ url_for(
+                                        'delete_row',
+                                        table_name=table.name,
+                                        row_index=loop.index0
+                                    ) }}"
+                                    class="delete-form"
+                                    onsubmit="return confirm('Ви впевнені, що хочете видалити цей запис?');"
+                                >
+
+                                    <button
+                                        type="submit"
+                                        class="delete-button"
+                                    >
+                                        Видалити
+                                    </button>
+
+                                </form>
+
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+
+                {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="{{ table.columns|length + 1 }}"
+                            class="empty-table"
+                        >
+                            У таблиці поки немає записів.
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

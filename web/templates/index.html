@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Система управління базами даних</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Система управління базами даних</h1>
+
+        <p>Веб-версія застосунку</p>
+
+        <div class="buttons">
+            <a href="{{ url_for('create_database') }}" class="button">
+                Створити базу даних
+            </a>
+            <a
+                href="{{ url_for('open_database') }}"
+                class="button"
+            >
+                Відкрити базу даних
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

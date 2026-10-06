@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Результат сполучення</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="container table-form">
+
+    <h1>Результат сполучення</h1>
+
+    <p>
+        {{ table1_name }}
+        +
+        {{ table2_name }}
+        за полем
+        «{{ common_field }}»
+    </p>
+
+
+    <div class="join-preview-info">
+
+        Результат показано лише для перегляду.
+        Таблицю не збережено до бази даних.
+
+    </div>
+
+
+    <div class="data-table-wrapper">
+
+        <table class="data-table">
+
+            <thead>
+
+                <tr>
+
+                    {% for column in table.columns %}
+
+                        <th>
+
+                            <div class="column-title">
+                                {{ column.name }}
+                            </div>
+
+                            <div class="column-info">
+
+                                <span class="type-badge">
+                                    {{ column.datatype.value }}
+                                </span>
+
+                            </div>
+
+                        </th>
+
+                    {% endfor %}
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% if table.rows %}
+
+                    {% for row in table.rows %}
+
+                        <tr>
+
+                            {% for column in table.columns %}
+
+                                <td>
+                                    {{
+                                        row.values.get(
+                                            column.name,
+                                            ''
+                                        )
+                                    }}
+                                </td>
+
+                            {% endfor %}
+
+                        </tr>
+
+                    {% endfor %}
+
+
+                {% else %}
+
+                    <tr>
+
+                        <td
+                            colspan="{{ table.columns|length }}"
+                            class="empty-table"
+                        >
+                            Спільних записів не знайдено.
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="buttons">
+
+        <a
+            href="{{ url_for('join_tables') }}"
+            class="button"
+        >
+            Нове сполучення
+        </a>
+
+
+        <a
+            href="{{ url_for('database_view') }}"
+            class="button"
+        >
+            Назад до БД
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

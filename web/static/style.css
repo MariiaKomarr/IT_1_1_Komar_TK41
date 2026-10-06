@@ -1,0 +1,1391 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family: Arial, sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #fff4fa 0%,
+        #f8f0ff 50%,
+        #f3edff 100%
+    );
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 40px 20px;
+
+    color: #574461;
+}
+
+
+/* =========================
+   ОСНОВНИЙ КОНТЕЙНЕР
+   ========================= */
+
+.container {
+    width: 100%;
+    max-width: 600px;
+
+    padding: 48px 50px;
+
+    background: rgba(255, 255, 255, 0.88);
+
+    border: 1px solid #eadcf4;
+    border-radius: 24px;
+
+    box-shadow: 0 12px 40px rgba(120, 90, 150, 0.12);
+
+    text-align: center;
+}
+
+
+/* Ширша форма для створення таблиці */
+
+.container.table-form {
+    max-width: 900px;
+}
+
+
+/* =========================
+   ТЕКСТ
+   ========================= */
+
+h1 {
+    margin: 0 0 12px 0;
+
+    color: #654f73;
+
+    font-size: 30px;
+    font-weight: 700;
+}
+
+h3 {
+    margin: 30px 0 18px;
+
+    color: #654f73;
+
+    font-size: 18px;
+}
+
+p {
+    margin: 0 0 32px;
+
+    color: #8b7697;
+
+    font-size: 15px;
+}
+
+
+/* =========================
+   INPUT
+   ========================= */
+
+input[type="text"] {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border: 1px solid #e3d2ee;
+    border-radius: 12px;
+
+    background: #fffaff;
+    color: #574461;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    outline: none;
+
+    transition: border-color 0.2s,
+                box-shadow 0.2s;
+}
+
+input[type="text"]:focus {
+    border-color: #cdb1df;
+
+    box-shadow: 0 0 0 3px rgba(205, 177, 223, 0.15);
+}
+
+input::placeholder {
+    color: #a995b3;
+}
+
+
+/* Назва таблиці / БД */
+
+form > input[type="text"] {
+    margin-bottom: 5px;
+}
+
+
+/* =========================
+   SELECT
+   ========================= */
+
+select {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border: 1px solid #e3d2ee;
+    border-radius: 12px;
+
+    background: #fffaff;
+    color: #574461;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    outline: none;
+
+    cursor: pointer;
+
+    transition: border-color 0.2s,
+                box-shadow 0.2s;
+}
+
+select:focus {
+    border-color: #cdb1df;
+
+    box-shadow: 0 0 0 3px rgba(205, 177, 223, 0.15);
+}
+
+
+/* =========================
+   СТОВПЦІ ТАБЛИЦІ
+   ========================= */
+
+#columns {
+    width: 100%;
+}
+
+.column-row {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(200px, 2fr)
+        minmax(140px, 1.2fr)
+        110px
+        120px;
+
+    gap: 14px;
+
+    align-items: center;
+
+    margin-bottom: 14px;
+}
+
+.column-row input[type="text"],
+.column-row select {
+    min-width: 0;
+}
+
+
+/* UNIQUE / REQUIRED */
+
+.column-row label {
+    min-height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 8px;
+
+    color: #6d5878;
+
+    font-size: 14px;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+}
+
+.column-row input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+
+    margin: 0;
+
+    accent-color: #c6a5dc;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   КНОПКИ
+   ========================= */
+
+button,
+.button {
+    min-height: 44px;
+
+    padding: 12px 22px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: #e7d5f5;
+    color: #574461;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+button:hover,
+.button:hover {
+    background: #ddc3f0;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 5px 15px rgba(120, 90, 150, 0.12);
+}
+
+
+/* Кнопка додавання стовпця */
+
+.add-column-button {
+    margin-top: 8px;
+}
+
+
+/* Нижні кнопки */
+
+.buttons {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 26px;
+}
+
+
+/* =========================
+   ПОМИЛКИ
+   ========================= */
+
+.error {
+    padding: 12px 15px;
+
+    margin-bottom: 22px;
+
+    background: #fff0f4;
+
+    border: 1px solid #f1d5df;
+    border-radius: 10px;
+
+    color: #a15d73;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   СПИСОК ТАБЛИЦЬ
+   ========================= */
+
+.table-list {
+    margin-top: 35px;
+
+    text-align: left;
+}
+
+.table-list h2 {
+    color: #654f73;
+}
+
+.table-card {
+    padding: 15px 18px;
+
+    margin-top: 10px;
+
+    background: #faf5ff;
+
+    border: 1px solid #eadcf4;
+    border-radius: 12px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: #654f73;
+}
+
+.empty {
+    margin-top: 30px;
+}
+
+
+/* =========================
+   АДАПТИВНІСТЬ
+   ========================= */
+
+@media (max-width: 800px) {
+
+    .container,
+    .container.table-form {
+        max-width: 100%;
+
+        padding: 35px 25px;
+    }
+
+    .column-row {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    body {
+        padding: 20px 12px;
+    }
+
+    .container,
+    .container.table-form {
+        padding: 30px 20px;
+    }
+
+    .column-row {
+        grid-template-columns: 1fr;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .buttons button,
+    .buttons .button {
+        width: 100%;
+    }
+}
+
+.row-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 18px;
+
+    text-align: left;
+}
+
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.form-field label {
+    color: #654f73;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+.form-field input {
+    margin: 0;
+}
+
+
+.field-type {
+    margin-left: 5px;
+
+    color: #a18baa;
+
+    font-size: 12px;
+    font-weight: normal;
+}
+
+
+.required-mark {
+    color: #c47791;
+
+    font-size: 16px;
+}
+
+
+.constraint {
+    margin-left: 5px;
+
+    padding: 3px 7px;
+
+    background: #f0e4f7;
+
+    border-radius: 6px;
+
+    color: #856a92;
+
+    font-size: 10px;
+    font-weight: normal;
+}
+
+/* =========================
+   ПЕРЕГЛЯД ТАБЛИЦІ
+   ========================= */
+
+.data-table-wrapper {
+    width: 100%;
+    margin-top: 30px;
+
+    overflow-x: auto;
+
+    border: 1px solid #eadcf4;
+    border-radius: 16px;
+
+    background: #fffaff;
+}
+
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    color: #574461;
+}
+
+
+.data-table th {
+    padding: 16px 18px;
+
+    background: #f3e7fa;
+
+    border-bottom: 1px solid #e2d1ed;
+
+    text-align: left;
+
+    color: #654f73;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+.data-table th small {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #9a83a6;
+
+    font-size: 11px;
+    font-weight: normal;
+}
+
+
+.data-table td {
+    padding: 15px 18px;
+
+    border-bottom: 1px solid #eee3f4;
+
+    text-align: left;
+
+    font-size: 14px;
+}
+
+
+.data-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+.data-table tbody tr:hover {
+    background: #fcf7ff;
+}
+
+
+/* Дії */
+
+.actions {
+    display: flex;
+
+    gap: 8px;
+
+    align-items: center;
+}
+
+
+.actions button {
+    padding: 8px 12px;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+
+/* Повідомлення, якщо записів немає */
+
+.empty-table {
+    padding: 35px !important;
+
+    text-align: center !important;
+
+    color: #9a83a6;
+}
+
+
+/* Заголовок сторінки таблиці */
+
+.table-form {
+    width: min(1000px, 95vw);
+}
+
+.column-title {
+    margin-bottom: 7px;
+
+    color: #574461;
+
+    font-size: 15px;
+    font-weight: 600;
+}
+
+
+.column-info {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 5px;
+}
+
+
+.type-badge,
+.constraint-badge {
+    display: inline-block;
+
+    padding: 3px 7px;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+    font-weight: normal;
+}
+
+
+.type-badge {
+    background: #eadcf4;
+
+    color: #654f73;
+}
+
+
+.constraint-badge {
+    background: #f8e9f1;
+
+    color: #93677c;
+}
+
+.action-button {
+    padding: 8px 12px;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+.delete-form {
+    margin: 0;
+}
+
+
+.delete-button {
+    padding: 8px 12px;
+
+    background: #f3dce8;
+    color: #87566d;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+
+.delete-button:hover {
+    background: #ebccdc;
+}
+
+.structure-list {
+    width: 100%;
+
+    margin-top: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+.structure-card {
+    width: 100%;
+
+    padding: 16px 18px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    background: #fffaff;
+
+    border: 1px solid #eadcf4;
+    border-radius: 14px;
+}
+
+
+.structure-info {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+
+    color: #574461;
+}
+
+
+.structure-info strong {
+    font-size: 15px;
+}
+
+
+.structure-actions {
+    display: flex;
+
+    gap: 8px;
+}
+
+
+.structure-actions button {
+    padding: 8px 12px;
+
+    font-size: 12px;
+}
+
+
+.structure-actions button:disabled {
+    opacity: 0.55;
+
+    cursor: default;
+
+    transform: none;
+}
+
+.form-select {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border: 1px solid #e3d2ee;
+    border-radius: 12px;
+
+    background: #fffaff;
+    color: #574461;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+.form-select:focus {
+    border-color: #cdb1df;
+}
+
+
+.column-options {
+    display: flex;
+
+    gap: 25px;
+
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+
+.checkbox-option {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #654f73;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+.checkbox-option input {
+    width: auto;
+
+    margin: 0;
+}
+
+.inline-form {
+    margin: 0;
+}
+
+.saved-database-list {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+
+.saved-database-card {
+    width: 100%;
+
+    padding: 15px 18px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+
+    background: #fffaff;
+
+    border: 1px solid #eadcf4;
+    border-radius: 14px;
+}
+
+
+.saved-database-info {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 4px;
+
+    color: #574461;
+}
+
+
+.saved-database-info strong {
+    font-size: 16px;
+}
+
+
+.saved-database-info span {
+    color: #a18baa;
+
+    font-size: 12px;
+}
+
+
+.saved-database-card form {
+    margin: 0;
+}
+
+.danger-button {
+    background: #f8dfe7;
+    color: #8a5265;
+}
+
+.danger-button:hover {
+    background: #f2cdd9;
+}
+
+.table-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.inline-form {
+    margin: 0;
+}
+
+.join-message {
+    min-height: 20px;
+
+    color: #9a7184;
+
+    font-size: 13px;
+
+    text-align: left;
+}
+
+
+button:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+.join-save-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    padding: 15px;
+
+    background: #faf5ff;
+
+    border: 1px solid #eadcf4;
+    border-radius: 12px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #654f73;
+
+    cursor: pointer;
+}
+
+.form-field {
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.form-field > label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #654f73;
+    font-weight: 600;
+}
+
+.form-select {
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border: 1px solid #e3d2ee;
+    border-radius: 12px;
+
+    background: #fffaff;
+    color: #574461;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.form-select:focus {
+    border-color: #cdb1df;
+}
+
+.form-select:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.join-result-field {
+    margin-top: 28px;
+}
+
+.join-save-options {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 16px;
+
+    background: #faf5ff;
+
+    border: 1px solid #eadcf4;
+    border-radius: 12px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    color: #654f73;
+
+    cursor: pointer;
+}
+
+.radio-option input[type="radio"] {
+    width: auto;
+    margin: 0;
+}
+
+.join-message {
+    min-height: 20px;
+
+    margin-bottom: 15px;
+
+    color: #a15d73;
+
+    font-size: 14px;
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.join-preview-info {
+    margin: 20px 0;
+
+    padding: 14px 18px;
+
+    background: #faf5ff;
+
+    border: 1px solid #eadcf4;
+    border-radius: 12px;
+
+    color: #765f82;
+
+    font-size: 14px;
+
+    text-align: center;
+}
+
+
+.container {
+    width: min(900px, calc(100% - 60px));
+    max-width: 900px;
+
+    padding: 55px 60px;
+
+    background: rgba(255, 255, 255, 0.90);
+
+    border: 1px solid #eadcf4;
+    border-radius: 26px;
+
+    box-shadow: 0 14px 45px rgba(120, 90, 150, 0.13);
+
+    text-align: center;
+}
+
+
+.container.table-form {
+    width: min(1100px, calc(100% - 60px));
+    max-width: 1100px;
+}
+
+
+
+h1 {
+    margin: 0 0 10px;
+
+    color: #654f73;
+
+    font-size: 34px;
+    font-weight: 700;
+}
+
+h2 {
+    margin-top: 0;
+
+    color: #654f73;
+
+    font-size: 24px;
+    font-weight: 700;
+}
+
+h3 {
+    margin: 32px 0 20px;
+
+    color: #654f73;
+
+    font-size: 20px;
+}
+
+
+p {
+    margin: 0 0 32px;
+
+    color: #8b7697;
+
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+
+button,
+.button {
+    min-height: 48px;
+
+    padding: 13px 26px;
+
+    border: none;
+    border-radius: 13px;
+
+    background: #e7d5f5;
+    color: #574461;
+
+    font-family: inherit;
+    font-size: 15px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s,
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+button:hover,
+.button:hover {
+    background: #ddc3f0;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 16px rgba(120, 90, 150, 0.14);
+}
+
+
+
+.buttons {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+
+    margin-top: 28px;
+    margin-bottom: 10px;
+}
+
+
+.table-list {
+    width: 100%;
+
+    margin-top: 42px;
+
+    text-align: left;
+}
+
+.table-list h2 {
+    margin-bottom: 18px;
+
+    color: #654f73;
+
+    font-size: 24px;
+}
+
+
+
+.table-card {
+    width: 100%;
+    min-height: 76px;
+
+    padding: 15px 20px;
+    margin-top: 12px;
+
+    background: #faf5ff;
+
+    border: 1px solid #eadcf4;
+    border-radius: 15px;
+
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 25px;
+
+    color: #654f73;
+
+    transition:
+        background 0.2s,
+        transform 0.2s,
+        box-shadow 0.2s;
+}
+
+.table-card:hover {
+    background: #f8f0fd;
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 5px 15px rgba(120, 90, 150, 0.08);
+}
+
+
+
+.table-card > div:first-child {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    min-width: 0;
+    flex: 1;
+}
+
+
+
+.table-card strong {
+    min-width: 180px;
+
+    color: #654f73;
+
+    font-size: 16px;
+    font-weight: 700;
+
+    word-break: break-word;
+}
+
+
+
+.table-card span {
+    color: #9a83a6;
+
+    font-size: 14px;
+
+    white-space: nowrap;
+}
+
+
+
+.table-actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    flex-shrink: 0;
+}
+
+.table-actions .button,
+.table-actions button {
+    min-height: 42px;
+
+    padding: 10px 18px;
+
+    font-size: 14px;
+}
+
+
+.danger-button,
+.delete-button {
+    background: #f8dfe7;
+    color: #8a5265;
+}
+
+.danger-button:hover,
+.delete-button:hover {
+    background: #f2cdd9;
+}
+
+
+
+input[type="text"],
+select,
+.form-select {
+    min-height: 48px;
+
+    font-size: 15px;
+}
+
+
+.data-table-wrapper {
+    width: 100%;
+
+    margin-top: 32px;
+
+    overflow-x: auto;
+
+    border: 1px solid #eadcf4;
+    border-radius: 16px;
+
+    background: #fffaff;
+}
+
+.data-table th {
+    padding: 18px 20px;
+
+    font-size: 15px;
+}
+
+.data-table td {
+    padding: 17px 20px;
+
+    font-size: 14px;
+}
+
+
+.structure-list {
+    margin-top: 32px;
+
+    gap: 14px;
+}
+
+.structure-card {
+    min-height: 72px;
+
+    padding: 17px 20px;
+}
+
+
+.saved-database-list {
+    margin-top: 30px;
+
+    gap: 14px;
+}
+
+.saved-database-card {
+    min-height: 72px;
+
+    padding: 17px 20px;
+}
+
+
+.join-save-options {
+    padding: 20px;
+
+    border-radius: 14px;
+}
+
+.join-preview-info {
+    padding: 17px 20px;
+
+    border-radius: 14px;
+
+    font-size: 15px;
+}
+
+
+.error {
+    padding: 13px 16px;
+
+    margin-bottom: 24px;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+}
+
+
+@media (max-width: 900px) {
+
+    .container,
+    .container.table-form {
+        width: calc(100% - 30px);
+        max-width: 100%;
+
+        padding: 40px 30px;
+    }
+
+    .table-card > div:first-child {
+        gap: 10px;
+    }
+
+    .table-card strong {
+        min-width: 130px;
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    body {
+        padding: 20px 10px;
+    }
+
+    .container,
+    .container.table-form {
+        width: 100%;
+
+        padding: 32px 20px;
+
+        border-radius: 20px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 21px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .buttons button,
+    .buttons .button,
+    .buttons form {
+        width: 100%;
+    }
+
+    .buttons form button {
+        width: 100%;
+    }
+
+    .table-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .table-card > div:first-child {
+        width: 100%;
+
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 5px;
+    }
+
+    .table-card strong {
+        min-width: 0;
+    }
+
+    .table-actions {
+        width: 100%;
+
+        justify-content: flex-start;
+    }
+}

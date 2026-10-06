@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ database.name }}</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>{{ database.name }}</h1>
+
+    <p>Базу даних успішно створено</p>
+
+
+    <div class="buttons">
+
+        <a
+            href="{{ url_for('create_table') }}"
+            class="button"
+        >
+            Створити таблицю
+        </a>
+
+
+        <a
+            href="{{ url_for('join_tables') }}"
+            class="button"
+        >
+            Сполучити таблиці
+        </a>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('save_database') }}"
+            class="inline-form"
+        >
+            <button type="submit">
+                Зберегти БД
+            </button>
+        </form>
+
+    </div>
+
+
+    {% if database.tables %}
+
+        <div class="table-list">
+
+            <h2>Таблиці</h2>
+
+
+            {% for table in database.tables %}
+
+                <div class="table-card">
+
+                    <div>
+                        <strong>
+                            {{ table.name }}
+                        </strong>
+
+                        <span>
+                            {{ table.columns|length }}
+                            стовпців
+                        </span>
+                    </div>
+
+
+                    <div class="table-actions">
+
+                    <a
+                        href="{{ url_for(
+                            'table_view',
+                            table_name=table.name
+                        ) }}"
+                        class="button"
+                    >
+                        Відкрити
+                    </a>
+
+
+                    <form
+                        method="POST"
+                        action="{{ url_for(
+                            'delete_table',
+                            table_name=table.name
+                        ) }}"
+                        class="inline-form"
+                        onsubmit="return confirm(
+                            'Видалити таблицю «{{ table.name }}» разом з усіма її записами?'
+                        );"
+                    >
+
+                        <button
+                            type="submit"
+                            class="danger-button"
+                        >
+                            Видалити
+                        </button>
+
+                    </form>
+
+</div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <p class="empty">
+            У базі даних поки немає таблиць.
+        </p>
+
+    {% endif %}
+
+</div>
+
+</body>
+
+</html>

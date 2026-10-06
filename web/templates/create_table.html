@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Створення таблиці</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+<div class="container table-form">
+
+    <h1>Створення таблиці</h1>
+
+    <p>Вкажіть назву таблиці та її стовпці</p>
+
+
+    {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+    {% endif %}
+
+
+    <form method="POST">
+
+        <!-- Назва таблиці -->
+
+        <input
+            type="text"
+            name="table_name"
+            placeholder="Назва таблиці"
+            autocomplete="off"
+            value="{{ form_data.table_name }}"
+        >
+
+
+        <h3>Стовпці</h3>
+
+
+        <div id="columns">
+
+            {% for saved_column in form_data.columns %}
+
+                {% set column_index = loop.index0 %}
+
+                <div class="column-row">
+
+                    <!-- Назва стовпця -->
+
+                    <input
+                        type="text"
+                        name="column_name"
+                        placeholder="Назва стовпця"
+                        autocomplete="off"
+                        value="{{ saved_column.name }}"
+                    >
+
+
+                    <!-- Тип даних -->
+
+                    <select name="column_type">
+
+                        {% for datatype in datatypes %}
+
+                            <option
+                                value="{{ datatype.value }}"
+                                {% if datatype.value == saved_column.type %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ datatype.value }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+
+                    <!-- UNIQUE -->
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            name="unique"
+                            value="{{ column_index }}"
+                            {% if saved_column.unique %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span>UNIQUE</span>
+
+                    </label>
+
+
+                    <!-- REQUIRED -->
+
+                    <label>
+
+                        <input
+                            type="checkbox"
+                            name="required"
+                            value="{{ column_index }}"
+                            {% if saved_column.required %}
+                                checked
+                            {% endif %}
+                        >
+
+                        <span>REQUIRED</span>
+
+                    </label>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+
+        <button
+            type="button"
+            class="add-column-button"
+            onclick="addColumn()"
+        >
+            + Додати стовпець
+        </button>
+
+
+        <div class="buttons">
+
+            <button type="submit">
+                Створити таблицю
+            </button>
+
+            <a
+                href="{{ url_for('database_view') }}"
+                class="button"
+            >
+                Назад
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<script>
+
+let columnIndex =
+    document.querySelectorAll(".column-row").length;
+
+
+function addColumn() {
+
+    const container =
+        document.getElementById("columns");
+
+    const firstRow =
+        document.querySelector(".column-row");
+
+    const newRow =
+        firstRow.cloneNode(true);
+
+
+    const nameInput =
+        newRow.querySelector(
+            'input[name="column_name"]'
+        );
+
+    nameInput.value = "";
+
+
+    const select =
+        newRow.querySelector(
+            'select[name="column_type"]'
+        );
+
+    select.selectedIndex = 0;
+
+    const checkboxes =
+        newRow.querySelectorAll(
+            'input[type="checkbox"]'
+        );
+
+    checkboxes.forEach(function(checkbox) {
+
+        checkbox.checked = false;
+
+        checkbox.value =
+            columnIndex;
+
+    });
+
+
+    container.appendChild(
+        newRow
+    );
+
+    columnIndex++;
+}
+
+</script>
+
+</body>
+
+</html>

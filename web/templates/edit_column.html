@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Редагування стовпця</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Редагування стовпця</h1>
+
+    <p>
+        Таблиця «{{ table.name }}»
+    </p>
+
+
+    {% if error %}
+
+        <div class="error">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+
+    <form method="POST">
+
+        <div class="row-form">
+
+
+            <div class="form-field">
+
+                <label for="column_name">
+                    Назва стовпця
+                </label>
+
+                <input
+                    id="column_name"
+                    type="text"
+                    name="column_name"
+                    value="{{ form_data.name }}"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label for="column_type">
+                    Тип даних
+                </label>
+
+                <select
+                    id="column_type"
+                    name="column_type"
+                    class="form-select"
+                >
+
+                    {% for datatype in datatypes %}
+
+                        <option
+                            value="{{ datatype.value }}"
+
+                            {% if form_data.type == datatype.value %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ datatype.value }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="column-options">
+
+                <label class="checkbox-option">
+
+                    <input
+                        type="checkbox"
+                        name="unique"
+
+                        {% if form_data.unique %}
+                            checked
+                        {% endif %}
+                    >
+
+                    <span>UNIQUE</span>
+
+                </label>
+
+
+                <label class="checkbox-option">
+
+                    <input
+                        type="checkbox"
+                        name="required"
+
+                        {% if form_data.required %}
+                            checked
+                        {% endif %}
+                    >
+
+                    <span>REQUIRED</span>
+
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div class="buttons">
+
+            <button type="submit">
+                Зберегти зміни
+            </button>
+
+
+            <a
+                href="{{ url_for(
+                    'edit_table_structure',
+                    table_name=table.name
+                ) }}"
+                class="button"
+            >
+                Скасувати
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
